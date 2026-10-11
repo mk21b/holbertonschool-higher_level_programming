@@ -1,40 +1,52 @@
 #!/usr/bin/python3
+"""
+Simple API implementation using Flask.
+"""
 from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
+# Dictionary to store users in memory
 users = {}
 
 
 @app.route("/")
 def home():
+    """Root endpoint returning a welcome message."""
     return "Welcome to the Flask API!"
 
 
-@app.route("/data", methods=["GET"])
-def data():
+@app.route("/data")
+def get_data():
+    """Returns a JSON list of all usernames stored in the API."""
     return jsonify(list(users.keys()))
 
 
-@app.route("/status", methods=["GET"])
+@app.route("/status")
 def status():
-    return "OK", 200
+    """Status endpoint returning OK."""
+    return "OK"
 
 
-@app.route("/users/<username>", methods=["GET"])
+@app.route("/users/<username>")
 def get_user(username):
-    if username not in users:
+    """
+    Returns the user object corresponding to the given username.
+    Returns 404 if the user is not found.
+    """
+    user = users.get(username)
+    if user is None:
         return jsonify({"error": "User not found"}), 404
-    return jsonify(users[username])
+    return jsonify(user)
 
 
 @app.route("/add_user", methods=["POST"])
 def add_user():
-    try:
-        data = request.get_json()
-    except Exception:
-        return jsonify({"error": "Invalid JSON"}), 400
-
+    """
+    Adds a new user to the users dictionary via POST request.
+    Handles validation for JSON formatting, missing username, and duplicates.
+    """
+    data = request.get_json(silent=True)
     if data is None:
         return jsonify({"error": "Invalid JSON"}), 400
 
@@ -45,6 +57,7 @@ def add_user():
     if username in users:
         return jsonify({"error": "Username already exists"}), 409
 
+    # Add user object to the in-memory dictionary
     users[username] = data
 
     return jsonify({

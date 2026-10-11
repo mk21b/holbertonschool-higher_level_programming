@@ -1,33 +1,34 @@
 #!/usr/bin/python3
 """
-First ORM
+Displays all values in the states table of hbtn_0e_0_usa
+where name matches the argument, safe from MySQL injection.
 """
-
 import MySQLdb
 import sys
 
+
 if __name__ == "__main__":
-    user = sys.argv[1]
+    username = sys.argv[1]
     password = sys.argv[2]
-    database = sys.argv[3]
-    state_name = sys.argv[4]
+    db_name = sys.argv[3]
+    name_arg = sys.argv[4]
 
     db = MySQLdb.connect(
         host="localhost",
         port=3306,
-        user=user,
+        user=username,
         passwd=password,
-        db=database
+        db=db_name,
+        charset="utf8"
     )
 
     cursor = db.cursor()
+    query = "SELECT * FROM states WHERE name = %s ORDER BY id ASC"
+    cursor.execute(query, (name_arg,))
 
-    cursor.execute(
-        "SELECT * FROM states WHERE name = %s ORDER BY id ASC",
-        (state_name,)
-    )
+    rows = cursor.fetchall()
 
-    for row in cursor.fetchall():
+    for row in rows:
         print(row)
 
     cursor.close()

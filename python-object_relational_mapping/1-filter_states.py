@@ -1,29 +1,31 @@
 #!/usr/bin/python3
 """
-First ORM
+Lists all states with a name starting with N (upper N) from hbtn_0e_0_usa.
 """
-
 import MySQLdb
 import sys
 
 if __name__ == "__main__":
-    user = sys.argv[1]
+    username = sys.argv[1]
     password = sys.argv[2]
-    database = sys.argv[3]
+    db_name = sys.argv[3]
 
     db = MySQLdb.connect(
         host="localhost",
         port=3306,
-        user=user,
+        user=username,
         passwd=password,
-        db=database
+        db=db_name,
+        charset="utf8"
     )
 
     cursor = db.cursor()
-    query = "SELECT * FROM states WHERE BINARY name LIKE 'N%' ORDER BY id ASC"
-    cursor.execute(query)
+    cursor.execute(
+        "SELECT * FROM states WHERE name LIKE BINARY 'N%' ORDER BY id ASC"
+        )
+    query = cursor.fetchall()
 
-    for row in cursor.fetchall():
+    for row in query:
         print(row)
 
     cursor.close()

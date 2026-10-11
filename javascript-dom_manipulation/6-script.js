@@ -1,10 +1,12 @@
-#!/usr/bin/node
-const character = document.querySelector("#character");
+// Fetch character data from the SWAPI endpoint and display the character's name in the element with id "character"
+const url = 'https://swapi-api.hbtn.io/api/people/5/?format=json';
+const characterDiv = document.querySelector('#character');
 
-(async function() {
-    
-    const res = await fetch("https://swapi-api.hbtn.io/api/people/5/?format=json");
-    const data = await res.json()
-    console.log(data);
-    character.textContent = data.name;
-})();
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    characterDiv.textContent = data.name;
+  })
+  .catch(error => {
+    console.error('Error fetching character:', error);
+  });

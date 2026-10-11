@@ -1,16 +1,16 @@
-#!/usr/bin/node
+// Fetch all Star Wars movies and list their titles inside the ul element with id "list_movies"
+const url = 'https://swapi-api.hbtn.io/api/films/?format=json';
+const listMovies = document.querySelector('#list_movies');
 
-
-const list_movies = document.querySelector("#list_movies");
-(async function() {
-    
-    const res = await fetch("https://swapi-api.hbtn.io/api/films/?format=json");
-    const datas = await res.json()
-    console.log(datas);
-    
-    for (data of datas.results) {
-        let li = document.createElement("li");
-        li.textContent = data.title;
-        list_movies.append(li)
-    }
-})();
+fetch(url)
+  .then(response => response.json())
+  .then(data => {
+    data.results.forEach(movie => {
+      const li = document.createElement('li');
+      li.textContent = movie.title;
+      listMovies.appendChild(li);
+    });
+  })
+  .catch(error => {
+    console.error('Error fetching movies:', error);
+  });

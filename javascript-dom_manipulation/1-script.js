@@ -1,8 +1,7 @@
-#!/usr/bin/node
+// Select the element with id "red_header" and the header element, then change header color on click
+const redHeader = document.querySelector('#red_header');
 const header = document.querySelector('header');
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelector('#red_header').addEventListener('click', () => {
-        header.style.color = '#FF0000';
-        console.log('Header color changed to red');
-    });
+
+redHeader.addEventListener('click', () => {
+  header.style.color = '#FF0000';
 });

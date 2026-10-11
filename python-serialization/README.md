@@ -1,48 +1,28 @@
 # Python - Serialization
 
-## Description
-This project covers serializing and deserializing Python data across four common formats: JSON, Pickle, CSV, and XML. Each task reads data from or writes data to disk, converting between native Python objects and their on-disk representation.
+This repository explores the core computer science concepts of **Serialization** and **Marshaling**. Through these tasks, we practice converting complex in-memory Python data structures and objects into persistent or transmittable formats (JSON, Pickle, CSV, XML) and reconstructing them back.
 
-All scripts target **Python 3.8+**.
+## Learning Objectives
+* Understand the explicit differences and similarities between serialization and marshaling.
+* Persist object states using Python's built-in libraries.
+* Evaluate efficiency, safety, and performance trade-offs between text-based (JSON, XML) and binary (Pickle) serialization formats.
+* Implement robust error-handling when deserializing potentially corrupt or missing files.
 
-## 📝 Learning Objectives
-* Serialize and deserialize Python data structures with the `json` module.
-* Serialize and deserialize a custom Python object with `pickle`.
-* Convert tabular CSV data into JSON with `csv.DictReader`.
-* Serialize a dictionary to XML and parse it back with `xml.etree.ElementTree`.
-* Handle I/O and format errors gracefully (`try`/`except`).
-
-## 🛠️ Requirements & Engineering Constraints
+## Environment & Requirements
 * **OS:** Ubuntu 20.04 LTS
-* **Interpreter:** `python3` (version 3.8.5+)
-* **Style Guide:** 100% compliant with PEP 8 standards (verified via `pycodestyle`).
+* **Language:** Python 3.8.5
+* **Style Guide:** Code conforms to the `pycodestyle` guidelines.
 
-## 📁 File List & Tasks Directory
+---
 
-| File | Task Title | Description |
+## Project Structure and Tasks
+
+| Task | File | Description |
 | :--- | :--- | :--- |
-| `task_00_basic_serialization.py` | Basic Serialization | `serialize_and_save_to_file(data, filename)` and `load_and_deserialize(filename)` round-trip Python data through JSON. |
-| `task_01_pickle.py` | Pickling Custom Objects | `CustomObject` (name, age, is_student) with `serialize()`/`deserialize()` class method using `pickle`, returning `None` on failure. |
-| `task_02_csv.py` | CSV to JSON | `convert_csv_to_json(filename)` reads a CSV file with `csv.DictReader` and writes it to `data.json`; returns `True`/`False` on success/failure. |
-| `task_03_xml.py` | XML Serialization | `serialize_to_xml(dictionary, filename)` and `deserialize_from_xml(filename)` round-trip a flat dictionary through XML. |
+| **0. Basic Serialization** | `task_00_basic_serialization.py` | Serializes a Python dictionary to a JSON file and deserializes it back using the `json` module. |
+| **1. Pickling Custom Classes** | `task_01_pickle.py` | Serializes and deserializes custom object instances using the binary `pickle` module with comprehensive exception handling. |
+| **2. Converting CSV Data to JSON** | `task_02_csv.py` | Reads structural data from a comma-separated values (`.csv`) file via `DictReader` and exports it into a JSON array format. |
+| **3. Serializing/Deserializing with XML** | `task_03_xml.py` | Implements data serialization using hierarchal tree objects with the `xml.etree.ElementTree` module. |
 
 ---
 
-## 🚀 Execution & PEP 8 Testing
-
-```bash
-python3 -c "from task_00_basic_serialization import serialize_and_save_to_file, load_and_deserialize; \
-serialize_and_save_to_file({'a': 1}, 'out.json'); \
-print(load_and_deserialize('out.json'))"
-```
-
-```bash
-pycodestyle task_00_basic_serialization.py
-```
-
----
-
-## 👤 Author
-* **Student:** [RebornLPB](https://github.com/RebornLPB)
-* **GitHub:** [https://github.com/RebornLPB](https://github.com/RebornLPB)
-* **School:** [Holberton School](https://www.holbertonschool.com/)

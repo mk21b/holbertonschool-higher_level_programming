@@ -1,8 +1,11 @@
 #!/usr/bin/python3
-'''This module returns json dump.'''
+"""
+This module contains a function that returns the JSON representation
+of an object.
+"""
 import json
 
 
 def to_json_string(my_obj):
-    '''Returns json dump.'''
+    """Returns the JSON representation of an object (string)."""
     return json.dumps(my_obj)

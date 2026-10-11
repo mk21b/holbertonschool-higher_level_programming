@@ -1,2 +1,3 @@
--- shwoing database command
+-- List all databases
+
 SHOW DATABASES;

@@ -1,18 +1,24 @@
 #!/usr/bin/python3
-'''This module is child class of Rectangle.'''
+"""
+This module defines a class Square that inherits from Rectangle.
+"""
 Rectangle = __import__('9-rectangle').Rectangle
 
 
 class Square(Rectangle):
-    '''Is child of BaseGeometry.'''
-
+    """
+    A class representing a square, inheriting from Rectangle.
+    """
     def __init__(self, size):
-        super().integer_validator("size", size)
-
+        """
+        Initializes a Square instance with validated size.
+        """
+        self.integer_validator("size", size)
+        super().__init__(size, size)
         self.__size = size
 
-    def area(self):
-        return self.__size ** 2
-
     def __str__(self):
-        return f'[Square] {self.__size}/{self.__size}'
+        """
+        Returns a string representation of the square.
+        """
+        return f"[Square] {self.__size}/{self.__size}"

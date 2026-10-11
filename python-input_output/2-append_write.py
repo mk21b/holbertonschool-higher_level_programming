@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-'''This module appends to file.'''
+"""
+This module contains a function that appends a string to a text file.
+"""
 
 
 def append_write(filename="", text=""):
-    """Appends to file."""
+    """Appends a string to a UTF-8 text file and returns chars added."""
     with open(filename, "a", encoding="utf-8") as f:
-        append_file = f.write(text)
-        return append_file
+        return f.write(text)

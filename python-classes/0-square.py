@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-"""Define a class Square."""
+"""The first project in OOP in Python the aim is create class square"""
 
 
 class Square:
-    """Defines a square in the system."""
+    """Defines an empty square."""
     pass

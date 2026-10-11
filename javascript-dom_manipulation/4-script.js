@@ -1,9 +1,9 @@
-#!/usr/bin/node
+// Select the element with id "add_item" and the ul element with class "my_list", then append a new li element on click
+const addItem = document.querySelector('#add_item');
+const myList = document.querySelector('.my_list');
 
-const add_item_btn = document.querySelector("#add_item");
-let myList = document.querySelector(".my_list");
-add_item_btn.addEventListener("click", () => {
-  let li = document.createElement("li");
-  li.textContent = "Item";
-  myList.append(li);
+addItem.addEventListener('click', () => {
+  const newLi = document.createElement('li');
+  newLi.textContent = 'Item';
+  myList.appendChild(newLi);
 });

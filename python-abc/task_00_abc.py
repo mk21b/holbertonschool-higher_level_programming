@@ -1,21 +1,28 @@
-#!/usr/bin/python3
-'''This module contains ABC class Animal'''
+"""Module for learning Abstract Base Classes in Python."""
+
 from abc import ABC, abstractmethod
 
 
 class Animal(ABC):
-    '''Animal class'''
+    """Abstract class representing a generic animal."""
 
     @abstractmethod
     def sound(self):
+        """Abstract method that returns the sound of the animal."""
         pass
 
+
 class Dog(Animal):
-    '''Dog class'''
+    """Subclass representing a dog, inheriting from Animal."""
+
     def sound(self):
-        return 'Bark'
+        """Returns the specific sound of a dog."""
+        return "Bark"
+
 
 class Cat(Animal):
-    '''Cat class'''
+    """Subclass representing a cat, inheriting from Animal."""
+
     def sound(self):
-        return 'Meow'
+        """Returns the specific sound of a cat."""
+        return "Meow"

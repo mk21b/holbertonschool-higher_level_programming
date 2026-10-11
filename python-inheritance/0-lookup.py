@@ -1,16 +1,12 @@
 #!/usr/bin/python3
-'''This module returns
-the list of available
-attributes and methods of an object.'''
+"""
+This module provides a lookup function for objects.
+"""
 
 
 def lookup(obj):
-    '''Returns the list of
-    available attributes and
-    methods of an object'''
-
-    atr = dir(obj)
-    atr_list = []
-    for i in atr:
-        atr_list.append(i)
-    return atr_list
+    """
+    A function that returns the list of available
+    attributes and methods of an object.
+    """
+    return dir(obj)

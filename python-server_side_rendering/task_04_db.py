@@ -3,97 +3,90 @@ import json
 import csv
 import sqlite3
 
+# Initialize the Flask application
 app = Flask(__name__)
 
-# ---------- File Reading ----------
-def read_json_products():
-    with open("products.json", "r") as f:
-        return json.load(f)
+# Function to read data from a JSON file
+def read_json(file_path):
+    try:
+        with open(file_path, 'r') as file:
+            return json.load(file)
+    except Exception:
+        return []
 
-def read_csv_products():
-    products = []
-    with open("products.csv", newline="") as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            products.append({
-                "id": int(row["id"]),
-                "name": row["name"],
-                "category": row["category"],
-                "price": float(row["price"])
-            })
-    return products
+# Function to read data from a CSV file
+def read_csv(file_path):
+    data = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            csv_reader = csv.DictReader(file)
+            for row in csv_reader:
+                # Convert id to integer and price to float for correct formatting and comparison
+                row['id'] = int(row['id'])
+                row['price'] = float(row['price'])
+                data.append(row)
+    except Exception:
+        return []
+    return data
 
-# ---------- SQLite Reading ----------
-def read_sql_products():
+# Function to read data from the SQLite database
+def read_sql():
+    data = []
     try:
         conn = sqlite3.connect('products.db')
+        # Use Row factory to access columns by name
+        conn.row_factory = sqlite3.Row
         cursor = conn.cursor()
-        cursor.execute("SELECT id, name, category, price FROM Products")
+        cursor.execute('SELECT id, name, category, price FROM Products')
         rows = cursor.fetchall()
-        products = []
         for row in rows:
-            products.append({
-                "id": row[0],
-                "name": row[1],
-                "category": row[2],
-                "price": row[3]
+            data.append({
+                'id': row['id'],
+                'name': row['name'],
+                'category': row['category'],
+                'price': row['price']
             })
-        return products
-    finally:
         conn.close()
-
-# ---------- Flask Route ----------
-@app.route("/products")
-def products():
-    source = request.args.get("source")
-    product_id = request.args.get("id")
-
-    # ---------- Source Validation ----------
-    if source not in ("json", "csv", "sql"):
-        return render_template(
-            "product_display.html",
-            error="Wrong source",
-            products=[]
-        )
-
-    # ---------- Load Data ----------
-    try:
-        if source == "json":
-            products = read_json_products()
-        elif source == "csv":
-            products = read_csv_products()
-        else:
-            products = read_sql_products()
     except Exception:
-        return render_template(
-            "product_display.html",
-            error="Error reading data",
-            products=[]
-        )
+        return []
+    return data
 
-    # ---------- Filter by ID ----------
+# Route for displaying products based on source ('json', 'csv', 'sql') and optional id
+@app.route('/products')
+def products():
+    source = request.args.get('source')
+    product_id = request.args.get('id')
+    
+    error_message = None
+    products_data = []
+
+    # Determine data source based on query parameter
+    if source == 'json':
+        products_data = read_json('products.json')
+    elif source == 'csv':
+        products_data = read_csv('products.csv')
+    elif source == 'sql':
+        products_data = read_sql()
+    else:
+        error_message = "Wrong source"
+        return render_template('product_display.html', error=error_message)
+
+    # Filter by id if provided
     if product_id is not None:
         try:
             product_id = int(product_id)
-            products = [p for p in products if p["id"] == product_id]
-            if not products:
-                return render_template(
-                    "product_display.html",
-                    error="Product not found",
-                    products=[]
-                )
         except ValueError:
-            return render_template(
-                "product_display.html",
-                error="Invalid product id",
-                products=[]
-            )
+            return render_template('product_display.html', error="Product not found")
 
-    return render_template(
-        "product_display.html",
-        products=products,
-        error=None
-    )
+        filtered_data = [p for p in products_data if p['id'] == product_id]
+        
+        if not filtered_data:
+            error_message = "Product not found"
+            return render_template('product_display.html', error=error_message)
+        
+        products_data = filtered_data
 
-if __name__ == "__main__":
+    return render_template('product_display.html', products=products_data)
+
+if __name__ == '__main__':
     app.run(debug=True, port=5000)

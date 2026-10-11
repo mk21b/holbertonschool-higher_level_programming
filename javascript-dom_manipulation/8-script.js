@@ -1,12 +1,14 @@
-#!/usr/bin/node
+// Fetch translation from API and display it in the element with id "hello" once the DOM is fully loaded
+window.addEventListener('DOMContentLoaded', () => {
+  const url = 'https://hellosalut.stefanbohacek.com/?lang=fr';
+  const helloDiv = document.querySelector('#hello');
 
-document.addEventListener('DOMContentLoaded', function () {
-  fetch('https://hellosalut.stefanbohacek.com/?lang=fr')
+  fetch(url)
     .then(response => response.json())
     .then(data => {
-      document.getElementById('hello').textContent = data.hello;
+      helloDiv.textContent = data.hello;
     })
     .catch(error => {
-      console.error('Error fetching hello:', error);
+      console.error('Error fetching greeting:', error);
     });
 });

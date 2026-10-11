@@ -1,6 +1,4 @@
 #!/usr/bin/node
 
-const firstArg = process.argv[2];
-const secondArg = process.argv[3];
-
-console.log(firstArg + ' is ' + secondArg);
+// Concatenate and print the first two arguments passed to the script in the format "a is b"
+console.log(process.argv[2] + ' is ' + process.argv[3]);

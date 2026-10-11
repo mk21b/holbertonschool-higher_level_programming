@@ -1,2 +1,6 @@
--- Select the best
-SELECT score,name FROM second_table WHERE score >= 10 ORDER BY score DESC;
+-- Lists the score and name for records with a score >= 10 from second_table
+-- Results should be ordered by score (top first)
+SELECT score, name
+FROM second_table
+WHERE score >= 10
+ORDER BY score DESC;

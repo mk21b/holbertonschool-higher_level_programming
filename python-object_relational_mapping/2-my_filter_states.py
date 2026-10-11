@@ -1,15 +1,25 @@
 #!/usr/bin/python3
 """
-Lists all states with a name starting with N (upper N) from hbtn_0e_0_usa.
+Module that takes in an argument and displays all values in the states
+table of hbtn_0e_0_usa where name matches the argument, using MySQLdb.
 """
+
 import MySQLdb
 import sys
 
-if __name__ == "__main__":
+
+def filter_states_by_name():
+    """
+    Connects to MySQL database and prints states matching the user argument
+    ordered by states.id in ascending order using format.
+    """
+    if len(sys.argv) != 5:
+        return
+
     username = sys.argv[1]
     password = sys.argv[2]
     db_name = sys.argv[3]
-    name_arg = sys.argv[4]
+    state_name = sys.argv[4]
 
     db = MySQLdb.connect(
         host="localhost",
@@ -21,13 +31,18 @@ if __name__ == "__main__":
     )
 
     cursor = db.cursor()
-    cquery = "SELECT * FROM states WHERE name LIKE BINARY '{}' " \
-             "ORDER BY id ASC".format(name_arg)
-    cursor.execute(cquery)
-    query = cursor.fetchall()
+    query = "SELECT * FROM states WHERE name = '{}' ORDER BY id ASC".format(
+        state_name
+    )
+    cursor.execute(query)
 
-    for row in query:
+    rows = cursor.fetchall()
+    for row in rows:
         print(row)
 
     cursor.close()
     db.close()
+
+
+if __name__ == "__main__":
+    filter_states_by_name()

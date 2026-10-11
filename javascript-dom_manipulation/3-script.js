@@ -1,13 +1,11 @@
-#!/usr/bin/node
-const header = document.querySelector("header")
+// Select the element with id "toggle_header" and the header element, then toggle between 'red' and 'green' classes on click
+const toggleHeader = document.querySelector('#toggle_header');
+const header = document.querySelector('header');
 
-document.querySelector("#toggle_header").addEventListener("click", () => {
-  if (header.classList.contains("red")) {
-    header.classList.remove("red")
-    header.classList.add("green")
-  }
-  else {
-    header.classList.remove("green")
-    header.classList.add("red")
+toggleHeader.addEventListener('click', () => {
+  if (header.classList.contains('red')) {
+    header.classList.replace('red', 'green');
+  } else {
+    header.classList.replace('green', 'red');
   }
 });

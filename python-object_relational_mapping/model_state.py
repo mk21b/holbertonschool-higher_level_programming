@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """
-Contains the class definition of a State and
-an instance Base = declarative_base()
+Module that defines the State class and Base instance
+using SQLAlchemy for object-relational mapping.
 """
+
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -11,7 +12,12 @@ Base = declarative_base()
 
 class State(Base):
     """
-    State class inherits from Base and links to MySQL table states
+    State class that links to the MySQL table 'states'.
+
+    Attributes:
+        __tablename__ (str): The name of the table in MySQL.
+        id (int): The state's unique identifier (Primary Key).
+        name (str): The state's name (up to 128 characters).
     """
     __tablename__ = 'states'
 

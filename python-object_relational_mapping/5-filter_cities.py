@@ -1,13 +1,22 @@
 #!/usr/bin/python3
 """
-Lists all cities of a given state from the database hbtn_0e_4_usa,
-safe from SQL injection.
+Module that takes in the name of a state as an argument and lists
+all cities of that state, using the database hbtn_0e_4_usa
+safely from SQL injections.
 """
+
 import MySQLdb
 import sys
 
 
-if __name__ == "__main__":
+def filter_cities_by_state():
+    """
+    Connects to MySQL database and prints all cities
+    of a given state separated by commas.
+    """
+    if len(sys.argv) != 5:
+        return
+
     username = sys.argv[1]
     password = sys.argv[2]
     db_name = sys.argv[3]
@@ -23,17 +32,22 @@ if __name__ == "__main__":
     )
 
     cursor = db.cursor()
-    query = ("SELECT cities.name "
-             "FROM cities "
-             "JOIN states ON cities.state_id = states.id "
-             "WHERE states.name = %s "
-             "ORDER BY cities.id ASC")
+    query = (
+        "SELECT cities.name "
+        "FROM cities JOIN states ON cities.state_id = states.id "
+        "WHERE states.name = %s "
+        "ORDER BY cities.id ASC"
+    )
     cursor.execute(query, (state_name,))
 
     rows = cursor.fetchall()
-
-    cities = [row[0] for row in rows]
-    print(", ".join(cities))
+    # Extract city names and join them with ', '
+    cities_list = [row[0] for row in rows]
+    print(", ".join(cities_list))
 
     cursor.close()
     db.close()
+
+
+if __name__ == "__main__":
+    filter_cities_by_state()

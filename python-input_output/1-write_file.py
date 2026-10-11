@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-'''This module writes to file.'''
+"""
+This module contains a function that writes a string to a text file.
+"""
 
 
 def write_file(filename="", text=""):
-    """Writes to file."""
+    """Writes a string to a text file (UTF-8) and returns number of chars."""
     with open(filename, "w", encoding="utf-8") as f:
-        write_file = f.write(text)
-        return write_file
+        return f.write(text)

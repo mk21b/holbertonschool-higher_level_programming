@@ -1,27 +1,28 @@
-#!/usr/bin/python3
-"""This module contains a class VerboseList."""
-from abc import ABC, abstractmethod
+"""Module for extending the built-in list class with notifications."""
 
 
 class VerboseList(list):
-    '''class VerboseList'''
+    """A custom list that prints notifications when items are added or removed."""
 
     def append(self, item):
+        """Add an item to the end of the list and print a notification."""
         super().append(item)
         print(f"Added [{item}] to the list.")
 
-
-    def extend(self, item):
-        super().extend(item)
-        print(f"Extended the list with [{len(item)}] items.")
-
+    def extend(self, iterable):
+        """Extend the list by appending elements from the iterable and notify."""
+        initial_length = len(self)
+        super().extend(iterable)
+        items_added = len(self) - initial_length
+        print(f"Extended the list with [{items_added}] items.")
 
     def remove(self, item):
+        """Remove the first occurrence of an item and print a notification."""
         print(f"Removed [{item}] from the list.")
         super().remove(item)
 
-
     def pop(self, index=-1):
-        item = super().pop(index)
+        """Pop an item from the list at the given index and notify."""
+        item = self[index]
         print(f"Popped [{item}] from the list.")
-        return item
+        return super().pop(index)
